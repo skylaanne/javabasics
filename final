@@ -1,0 +1,162 @@
+/*
+Assignment 4 / Cuesta College
+Fall 2019 / R. Scovil
+CIS 231 / Cuesta College
+Skyla Urman / Skyla_urman@cuesta.edu
+
+*/
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class A4231SUrman {
+
+
+    public static void main(String[] args) {
+        // Store all values input
+        //  <> on right side ("diamond") means create with same parameterized type as on left
+
+
+        // input a line with any number of white-space-delimited values
+
+        System.out.println("Enter a line of input with any number of integers");
+        System.out.println("All values must be white-space-delimited");
+        System.out.println("Non-integers will be discarded");
+        System.out.print("->");
+
+
+        ArrayList<Integer> values = getArray();
+        if (values.size() > 0) {
+            selectionSort(values);
+
+            printarray(values, 10);
+
+            highAndLow(values);
+
+            averages(values);
+
+            mode(values);
+        }
+
+
+    }
+
+    public static ArrayList<Integer> getArray() {
+        Scanner keyIn = new Scanner(System.in);
+
+        ArrayList<Integer> values = new ArrayList<>();
+
+        String nextinput = keyIn.nextLine();
+
+        while (keyIn.hasNextLine()) {
+            Scanner lineScan = new Scanner(nextinput);
+            while (lineScan.hasNext()) {
+                if (lineScan.hasNextInt())
+                    values.add(lineScan.nextInt());
+                else
+                    lineScan.next();
+
+            }
+
+            nextinput = keyIn.nextLine();
+            if (nextinput.equals(""))
+                return values;
+        }
+
+
+        System.out.print("A total of " + values.size() + " integers were input: ");
+
+        // Output all values using "for in" loop from 2.4
+        for (Integer next : values) {
+            System.out.print(next + " ");
+        }
+
+        System.out.println();
+
+
+        return values;
+    }
+
+
+    public static void selectionSort(ArrayList<Integer> array) {
+        for (int i = 0; i < array.size() - 1; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < array.size(); j++) {
+                if (array.get(j) < array.get(minIndex))
+                    minIndex = j;
+            }
+
+            int temp = array.get(minIndex);
+            array.set(minIndex, array.get(i));
+            array.set(i, temp);
+
+
+        }
+    }
+
+    public static void printarray(ArrayList<Integer> array, int numPerLine) {
+        System.out.print("\nIntegers sorted: ");
+
+        for (int i = 0; i < array.size(); i++) {
+            if ((i + 1) % numPerLine == 0)
+                System.out.println(array.get(i) + " ");
+            else
+                System.out.print(array.get(i) + " ");
+        }
+
+        System.out.println();
+
+    }
+
+
+    public static void highAndLow(ArrayList<Integer> array) {
+        int largest = array.get(0);
+        int smallest = array.get(0);
+
+        for (int i = 0; i < array.size(); i++) {
+            if (array.get(i) > largest)
+                largest = array.get(i);
+            if (array.get(i) < smallest)
+                smallest = array.get(i);
+        }
+
+        System.out.println("\nThe largest is: " + largest);
+        System.out.println("\nThe smallest is: " + smallest);
+
+
+    }
+
+    public static void averages(ArrayList<Integer> array) {
+        double sum = 0.00;
+
+        DecimalFormat df2 = new DecimalFormat("#######0.00");
+
+        for (int i = 0; i < array.size(); i++) {
+            sum = sum + array.get(i);
+        }
+
+        System.out.println("\nThe average of the values: " + df2.format((sum / array.size())));
+
+    }
+
+    public static void mode(ArrayList<Integer> array) {
+
+        int last = array.get(0);
+        int count = 1;
+
+        for (int i = 1; i < array.size(); i++) {
+            if (array.get(i).equals(array.get(i - 1))) {
+                last = array.get(i);
+                count = count + 1;
+            }
+        }
+
+        System.out.println("\nThe mode of the data is: " + last + " and it occurred " + count + " times");
+
+
+    }
+
+
+}
+
